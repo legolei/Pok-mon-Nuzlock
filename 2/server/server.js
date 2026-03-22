@@ -210,4 +210,8 @@ if (RENDER_URL) {
   console.log("[keep-alive] RENDER_EXTERNAL_URL not set — local dev mode");
 }
 
-server.listen(3000, () => console.log("[server] started at http://localhost:3000"));
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => {
+  console.log(`[server] started on port ${PORT}`);
+});
