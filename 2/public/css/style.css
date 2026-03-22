@@ -1,0 +1,179 @@
+
+body{
+background:url('/assets/background.jpg');
+background-size:cover;
+font-family:Arial;
+color:white;
+}
+
+#login{
+position:absolute;
+top:40%;
+left:50%;
+transform:translate(-50%,-50%);
+background:rgba(0,0,0,0.8);
+padding:20px;
+border-radius:10px;
+}
+
+#overlay{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+padding:20px;
+}
+
+.player{
+background:rgba(0,0,0,0.75);
+padding:10px;
+border-radius:10px;
+}
+
+.mainScreen{height:125px;width:100%;background:black;cursor:pointer;overflow:hidden;position:relative;box-sizing:border-box;}
+
+.touchScreen{height:125px;width:100%;background:black;margin-top:4px;overflow:hidden;position:relative;box-sizing:border-box;}
+
+.player-stream-row{display:flex;gap:4px;align-items:flex-start;margin-top:4px;}
+
+.stream-col{flex:1 1 0;min-width:0;width:0;overflow:hidden;}
+
+.pokemon-sidebar{
+  width:42px;
+  flex-shrink:0;
+  display:flex;
+  flex-direction:column;
+  flex-wrap:wrap;
+  align-content:flex-start;
+  gap:1px;
+  max-height:254px;
+  overflow:hidden;
+}
+
+.pokemon-sidebar img{
+  width:18px;
+  height:18px;
+  image-rendering:pixelated;
+  display:block;
+}
+
+.badges{display:flex;gap:4px;margin-top:6px;}
+
+.badge{
+width:32px;height:32px;
+background:url('/assets/badges.png');
+background-size:254px 32px;
+filter:grayscale(100%);
+cursor:pointer;
+}
+.badge.active{filter:none}
+
+.badge:nth-child(1){background-position:0 0}
+.badge:nth-child(2){background-position:-32px 0}
+.badge:nth-child(3){background-position:-64px 0}
+.badge:nth-child(4){background-position:-96px 0}
+.badge:nth-child(5){background-position:-128px 0}
+.badge:nth-child(6){background-position:-160px 0}
+.badge:nth-child(7){background-position:-192px 0}
+.badge:nth-child(8){background-position:-224px 0}
+
+.team{display:flex;gap:5px;margin-top:8px}
+
+.slot{
+width:55px;
+height:55px;
+background:#333;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+overflow:hidden;
+cursor:pointer
+}
+
+.slot img{width:50px;z-index:1}
+
+.animLayer{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:20;
+}
+
+#graveyard{display:flex;gap:10px;padding:20px;flex-wrap:wrap}
+.grave{border:3px solid;padding:4px;cursor:pointer}
+
+#adjContextMenu div:hover{background:#2a2a2a;}
+
+.dead{
+  filter:grayscale(100%) brightness(0.5) sepia(1) hue-rotate(-50deg);
+}
+
+.slot:hover{
+  outline:2px solid white;
+  z-index:2;
+}
+
+.slot img:hover{
+  transform:scale(1.15);
+  transition:transform 0.15s ease;
+}
+
+@keyframes pokeballRelease{
+  0%   {opacity:1;border-radius:50%;background:radial-gradient(circle at 50% 50%,white 25%,black 26%,black 49%,red 50%);transform:scale(1.3);}
+  70%  {opacity:0.4;transform:scale(0.4);}
+  100% {opacity:0;transform:scale(0);}
+}
+
+.pokeball-in{animation:pokeballRelease 0.5s ease forwards;}
+
+@keyframes graveIn{
+  from{opacity:0;transform:scale(0.5) translateY(-8px);}
+  to  {opacity:1;transform:scale(1) translateY(0);}
+}
+
+.grave{animation:graveIn 0.35s ease;}
+
+.adjHandle:hover{
+  background:rgba(255,120,120,1) !important;
+  transform:scale(1.3);
+}
+
+#fsTouch{border-top:2px solid #333;}
+
+.streamCapture{
+  position:absolute;
+  inset:0;
+  z-index:10;
+  background:transparent;
+  pointer-events:auto;
+  cursor:grab;
+}
+.streamCapture:active{cursor:grabbing;}
+
+.mainScreen iframe,.touchScreen iframe{
+  position:absolute;top:0;left:0;
+  width:1280px;height:720px;
+  border:none;pointer-events:none;
+}
+.viewport{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;}
+.content{position:absolute;top:0;left:0;transform-origin:top left;}
+
+.skip-anim .pokeball-in{animation:none !important;}
+
+/* No animation on badge click */
+.badge { transition: none !important; animation: none !important; }
+.badge:active { transform: none !important; }
+
+#adjDragLayer{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  z-index:100;
+  pointer-events:auto;
+  cursor:grab;
+  background:transparent;
+}
+#adjDragLayer:active{cursor:grabbing;}
