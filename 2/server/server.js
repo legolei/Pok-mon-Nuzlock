@@ -7,7 +7,18 @@ const path = require("path");
 
 const app    = express();
 const server = http.createServer(app);
-const io     = new Server(server);
+
+// Required for Render's reverse proxy (correct IP forwarding)
+app.set("trust proxy", 1);
+
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  },
+  transports: ["websocket", "polling"],
+  allowEIO3: true
+});
 
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.json());
@@ -211,7 +222,4 @@ if (RENDER_URL) {
 }
 
 const PORT = process.env.PORT || 3000;
-
-server.listen(PORT, () => {
-  console.log(`[server] started on port ${PORT}`);
-});
+server.listen(PORT, () => console.log(`[server] started on port ${PORT}`));
