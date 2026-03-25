@@ -89,7 +89,7 @@ function initDB() {
 }
 
 // ── Socket & globaler State ───────────────────────────────────
-const socket = io();
+const socket = io({ transports: ["websocket"] });
 let db   = null;
 let user = { role: "viewer", slot: null };
 
