@@ -12,7 +12,7 @@ const statuses = ["", "Lebendig", "Tot", "Blockiert"];
 const levelCaps = ["11/13","15/17","19/21","23/25","27/29","31/33","35/37","39/41","43/45"];
 
 const GAME_CONFIG = {
-  "Schwarz":              { badges: "/assets/badges/unova2/badges.png",  levelCaps: ["11/13","15/17","19/21","23/25","27/29","31/33","35/37","39/41","43/45"] },
+  "Schwarz":              { badges: "/assets/badges/unova2/badges.png",  levelCaps: ["12 / 14","18 / 20","21 / 23","25 / 27","29 / 31","33 / 35","37 / 39","46 / 50","46 / 50"] },
   "Schwarz 2":            { badges: "/assets/badges/unova2/badges.png",  levelCaps: ["1/13","13/18","18/24","24/27","27/31","31/35","35/39","39/43"] },
   "Soul Silver":          { badges: "/assets/badges/johto/badges.png",   levelCaps: ["1/13","13/17","17/19","19/25","25/31","31/35","35/41","41/45"] },
   "Platin":               { badges: "/assets/badges/sinnoh/badges.png",  levelCaps: ["1/14","14/22","22/26","26/30","30/37","37/39","39/44","44/49"] },
@@ -246,8 +246,7 @@ function teamHTML(p, i) {
       ondragover="event.preventDefault()"
       ondrop="handleDrop(event,${i},${s})"
       oncontextmenu="return removePokemon(event,${i},${s})">
-      ${sprite ? `<img src="${sprite}" class="${isDead(name) ? "dead" : ""}">` : ""}
-      ${sprite ? `<div class="animLayer pokeball-in"></div>` : ""}
+      ${sprite ? `<img src="${sprite}" class="${isDead(name, i) ? "dead" : ""}">` : ""}
     </div>`;
   }).join("");
 }
@@ -423,9 +422,9 @@ function handleDrop(e, p, s) {
   if (typeof syncTrackerFromDB === "function") syncTrackerFromDB();
 }
 
-function isDead(name) {
+function isDead(name, playerIndex) {
   if (!name || !db || !db.graveyard) return false;
-  return db.graveyard.some(g => g.name === name);
+  return db.graveyard.some(g => g.name === name && g.player === playerIndex);
 }
 
 
