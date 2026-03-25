@@ -6,7 +6,8 @@ font-family:Arial;
 color:white;
 margin:0;
 padding:0;
-overflow-x:hidden;
+overflow-x:auto;
+min-width:900px;
 }
 
 #login{
@@ -21,11 +22,12 @@ border-radius:10px;
 
 #overlay{
 display:grid;
-grid-template-columns:repeat(4,1fr);
+grid-template-columns:repeat(4,minmax(0,1fr));
 gap:10px;
 padding:10px;
 box-sizing:border-box;
 width:100%;
+min-width:880px;
 }
 
 .player{
@@ -34,6 +36,7 @@ padding:8px;
 border-radius:6px;
 box-sizing:border-box;
 min-width:0;
+overflow:hidden;
 }
 
 .player h3{
@@ -67,8 +70,9 @@ text-overflow:ellipsis;
 }
 
 .pokemon-sidebar img{
-  width:34px;
-  height:auto;
+  width:28px;
+  height:28px;
+  object-fit:contain;
   image-rendering:pixelated;
   display:block;
 }
@@ -79,7 +83,7 @@ text-overflow:ellipsis;
   display:block;
 }
 
-.badges{display:flex;gap:3px;margin-top:5px;flex-wrap:nowrap;}
+.badges{display:flex;gap:2px;margin-top:5px;flex-wrap:wrap;}
 
 .badge{
 width:28px;height:28px;
@@ -104,7 +108,7 @@ flex-shrink:0;
 .badge { transition: none !important; animation: none !important; }
 .badge:active { transform: none !important; }
 
-.team{display:flex;gap:3px;margin-top:5px;}
+.team{display:flex;gap:2px;margin-top:5px;flex-wrap:wrap;}
 
 .slot{
 width:46px;
