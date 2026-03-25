@@ -16,7 +16,7 @@ const io = new Server(server, {
     origin: "*",
     methods: ["GET", "POST"]
   },
-  transports: ["websocket", "polling"],
+  transports: ["websocket"],
   allowEIO3: true
 });
 
@@ -25,6 +25,8 @@ app.use(express.json());
 
 const ROUTES_FILE = path.join(__dirname, "../routes_by_game.json");
 const fs = require("fs");
+
+global.saveTimeout = null;
 
 // ── GitHub persistence config ────────────────────────────────────────────────
 const GH_OWNER  = "legolei";
@@ -169,8 +171,15 @@ io.on("connection", (socket) => {
   socket.on("update", (data) => {
     db = data;
     console.log("[update] state received, game:", db.game || "(none)");
-    io.emit("state", db);
-    saveToGitHub(db);
+
+    // Live Updates sofort an andere Clients senden (ohne den Sender doppelt zu triggern)
+    socket.broadcast.emit("state", db);
+
+    // GitHub speichern maximal alle 60 Sekunden (verhindert Spam)
+    clearTimeout(global.saveTimeout);
+    global.saveTimeout = setTimeout(() => {
+      saveToGitHub(db);
+    }, 60000);
   });
 
   socket.on("disconnect", () => {
