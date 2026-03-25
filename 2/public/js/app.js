@@ -196,7 +196,9 @@ function sidebarIconsHTML(p) {
   const teamSet = new Set((p.team || []).filter(Boolean));
   const seen = new Set();
   let html = '';
-  for (const c of Object.values(p.catches)) {
+  const validRoutes = new Set(ALL_ROUTES);
+  for (const [route, c] of Object.entries(p.catches)) {
+    if (!validRoutes.has(route)) continue;
     if (!c || !c.name || c.status !== 'Lebendig') continue;
     if (teamSet.has(c.name) || seen.has(c.name)) continue;
     seen.add(c.name);
@@ -223,7 +225,7 @@ function playerHTML(p, i) {
       ${p.mainStream ? `<div class="viewport" id="mvp-${i}"><div class="content" id="mct-${i}"><iframe src="${p.mainStream}" id="mif-${i}" frameborder="0" allow="autoplay; fullscreen" muted></iframe></div></div><div class="streamCapture"></div>` : "Click to add stream"}
     </div>
     <div class="touchScreen" id="ptouch-${i}">
-      ${p.mainStream ? `<div class="viewport" id="tvp-${i}"><div class="content" id="tct-${i}"><iframe src="${p.mainStream}" id="tif-${i}" frameborder="0" allow="autoplay; fullscreen" muted></iframe></div></div><div class="streamCapture"></div>` : ""}
+      ${p.touchStream ? `<div class="viewport" id="tvp-${i}"><div class="content" id="tct-${i}"><iframe src="${p.touchStream}" id="tif-${i}" frameborder="0" allow="autoplay; fullscreen" muted></iframe></div></div><div class="streamCapture"></div>` : ""}
     </div>
   </div>
 </div>
@@ -347,7 +349,7 @@ function removePokemon(e, p, s) {
   const catches = db.players[p].catches;
   if (catches) {
     for (const c of Object.values(catches)) {
-      if (c && c.name === name && c.status === "Lebendig") { c.status = "Tot"; break; }
+      if (c && c.name === name && c.status === "Lebendig") { c.status = "Tot"; }
     }
   }
 
