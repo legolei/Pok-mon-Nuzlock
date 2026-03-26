@@ -720,8 +720,8 @@ function initScreenDrag(pi, type) {
     if (!capture._alignMode) return;
     e.preventDefault();
     var a = _getAdj(pi, type);
-    var delta = e.deltaY < 0 ? 0.05 : -0.05;
-    a.userScale = Math.max(0.05, Math.min(20, (a.userScale || 1) + delta));
+    var delta = e.deltaY < 0 ? 0.15 : -0.15;
+    a.userScale = Math.max(0.05, Math.min(50, (a.userScale || 1) + delta));
     _setAdj(pi, type, a);
     if (type === 'main') applyMainScreenAdj(pi); else applyTouchScreenAdj(pi);
     clearTimeout(_zoomSaveTimer);
