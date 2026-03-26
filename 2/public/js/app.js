@@ -48,9 +48,11 @@ function getSpriteUrl(name) {
 function getAliveForPlayer(pIdx) {
   const p = db && db.players[pIdx];
   if (!p || !p.catches) return [];
+  const validRoutes = new Set(ALL_ROUTES);
   const seen = new Set();
   const alive = [];
-  for (const c of Object.values(p.catches)) {
+  for (const [route, c] of Object.entries(p.catches)) {
+    if (!validRoutes.has(route)) continue;
     if (c && c.name && c.status === "Lebendig" && !seen.has(c.name)) {
       seen.add(c.name);
       alive.push(c.name);
@@ -719,7 +721,7 @@ function initScreenDrag(pi, type) {
     e.preventDefault();
     var a = _getAdj(pi, type);
     var delta = e.deltaY < 0 ? 0.05 : -0.05;
-    a.userScale = Math.max(0.1, Math.min(5, (a.userScale || 1) + delta));
+    a.userScale = Math.max(0.05, Math.min(20, (a.userScale || 1) + delta));
     _setAdj(pi, type, a);
     if (type === 'main') applyMainScreenAdj(pi); else applyTouchScreenAdj(pi);
     clearTimeout(_zoomSaveTimer);
